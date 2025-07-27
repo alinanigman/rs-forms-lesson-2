@@ -15,11 +15,12 @@ const useStore = () => {
     updateState: (fieldName, newValue) => {
       setState({ ...state, [fieldName]: newValue });
     },
+    resetState: () => setState(initialState),
   };
 };
 
 function App() {
-  const { getState, updateState } = useStore();
+  const { getState, updateState, resetState } = useStore();
   const sendData = (value) => {
     console.log("Form submitted with values:", value);
   };
@@ -27,6 +28,7 @@ function App() {
   const onSubmit = (event) => {
     event.preventDefault();
     sendData(getState());
+    resetState();
   };
 
   const { email, login, password } = getState();
