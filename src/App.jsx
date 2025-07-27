@@ -1,21 +1,35 @@
 import { useState } from "react";
 import "./App.css";
 
-function App() {
-  const [formData, setFormData] = useState({
-    email: "",
-    login: "",
-    password: "",
-  });
+const initialState = {
+  email: "",
+  login: "",
+  password: "",
+};
 
+const useStore = () => {
+  const [state, setState] = useState(initialState);
+
+  return {
+    getState: () => state,
+    updateState: (fieldName, newValue) => {
+      setState({ ...state, [fieldName]: newValue });
+    },
+  };
+};
+
+function App() {
+  const { getState, updateState } = useStore();
   const sendData = (value) => {
     console.log("Form submitted with values:", value);
   };
 
   const onSubmit = (event) => {
     event.preventDefault();
-    sendData(formData);
+    sendData(getState());
   };
+
+  const { email, login, password } = getState();
 
   return (
     <div className="App">
@@ -23,29 +37,23 @@ function App() {
         <input
           type="email"
           name="email"
-          value={formData.email}
+          value={email}
           placeholder="Enter your email"
-          onChange={({ target }) =>
-            setFormData({ ...formData, email: target.value })
-          }
+          onChange={({ target }) => updateState("email", target.value)}
         />
         <input
           type="text"
           name="login"
-          value={formData.login}
+          value={login}
           placeholder="Enter your login"
-          onChange={({ target }) =>
-            setFormData({ ...formData, login: target.value })
-          }
+          onChange={({ target }) => updateState("login", target.value)}
         />
         <input
           type="password"
           name="password"
-          value={formData.password}
+          value={password}
           placeholder="Enter your password"
-          onChange={({ target }) =>
-            setFormData({ ...formData, password: target.value })
-          }
+          onChange={({ target }) => updateState("password", target.value)}
         />
         <button type="submit">SEND</button>
       </form>
