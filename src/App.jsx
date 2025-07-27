@@ -31,6 +31,8 @@ function App() {
 
   const { email, login, password } = getState();
 
+  const onChange = ({ target }) => updateState(target.name, target.value);
+
   return (
     <div className="App">
       <form onSubmit={onSubmit}>
@@ -39,21 +41,21 @@ function App() {
           name="email"
           value={email}
           placeholder="Enter your email"
-          onChange={({ target }) => updateState("email", target.value)}
+          onChange={onChange}
         />
         <input
           type="text"
           name="login"
           value={login}
           placeholder="Enter your login"
-          onChange={({ target }) => updateState("login", target.value)}
+          onChange={onChange}
         />
         <input
           type="password"
           name="password"
           value={password}
           placeholder="Enter your password"
-          onChange={({ target }) => updateState("password", target.value)}
+          onChange={onChange}
         />
         <button type="submit">SEND</button>
       </form>
